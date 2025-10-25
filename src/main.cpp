@@ -4,3 +4,14 @@
 
 
 //Consider using VTK or maybe Tangram. VTK seems to be the best option atm.
+
+#include <iostream>
+
+using namespace std;
+
+
+
+int main() {
+    cout << "Hello, Economic Visualizer!" << endl;
+    return 0;
+}
