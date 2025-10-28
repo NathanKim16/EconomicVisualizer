@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.22)
 project(Project1)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 20)
 
 #compile flags to match Gradescope test environment
 set(GCC_COVERAGE_COMPILE_FLAGS "-Wall -Werror") # remove -Wall if you don't want as many warnings treated as errors
@@ -20,7 +20,9 @@ FetchContent_MakeAvailable(Catch2)
 include_directories(src)
 
 add_executable(Main
-        src/main.cpp # your main file
+        src/main.cpp
+        src/hashTable.cpp
+        src/hashTable.h # your main file
         # add your own header files below - should be automatically added in CLion
         # example (can also separate with newlines):
         # src/AVL.h src/AVL.cpp
@@ -28,7 +30,9 @@ add_executable(Main
         
 # These tests can use the Catch2-provided main
 add_executable(Tests
-        test/test.cpp # your test file
+        src/test.cpp
+        src/hashTable.cpp
+        src/hashTable.h # your test file
         # add your own header files below - should be automatically added in CLion
         # example (can also separate with newlines):
         # src/AVL.h src/AVL.cpp
