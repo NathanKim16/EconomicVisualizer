@@ -1,7 +1,12 @@
 #include "hashTable.h"
+using namespace std;
 
 hashTable::hashTable(float maxLoadFactor) {
     hashTable::maxLoadFactor = maxLoadFactor;
+}
+
+hashTable::hashTable() {
+    maxLoadFactor = 0.7f;
 }
 
 hashTable::~hashTable() {
@@ -19,7 +24,7 @@ bool hashTable::insert(const string& key, const string& value) {
         fullBuckets++;
     }
     curr.push_back(pair(key, value));
-    if (static_cast<float>(fullBuckets)/static_cast<float>(buckets) > maxLoadFactor) { // Need to check load factor on insert
+    if (static_cast<float>(fullBuckets)/static_cast<float>(buckets) >= maxLoadFactor) { // Need to check load factor on insert
         resize();
     }
     return true;
@@ -51,7 +56,35 @@ string hashTable::search(const string& key) {
 }
 
 int hashTable::hash(const string& key, int buckets) {
-    return -1;
+    stringstream ss(key);
+    vector<string> keyData; // keyData[0] = year, keyData[1] = county, keyData[2] = type
+    string data;
+    while (getline(ss, data, ',')) {
+        keyData.push_back(data);
+    }
+
+    // Did some research on the golden ratio's usage in scattering:
+    // https://softwareengineering.stackexchange.com/a/402543
+    // Inspiration also taken from using ASCII values of letters as taught in class.
+
+    const unsigned long base = 131;
+    unsigned long hash = stoi(keyData[0]);
+
+    unsigned long hash2 = 1;
+    for (char c : keyData[1]) {
+        hash2 *= base + isalpha(c);
+    }
+
+    unsigned long hash3 = 1;
+    for (char c : keyData[2]) {
+        hash3 *= base + isalpha(c);
+    }
+
+    // Use golden ratio fractional for optimal spread.
+    hash *= 0x9e3779b9 + hash2;
+    hash *= 0x9e3779b9 + hash3;
+
+    return hash % buckets;
 }
 
 void hashTable::resize() {

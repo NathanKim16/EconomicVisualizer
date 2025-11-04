@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <sstream>
 using namespace std;
 
 class hashTable {
@@ -16,7 +17,8 @@ private:
     void resize();
 
 public:
-    hashTable(float maxLoadFactor = 0.75);
+    hashTable(float maxLoadFactor);
+    hashTable();
     bool insert(const string& key, const string& value);
     bool remove(const string& key);
     string search(const string& key);
