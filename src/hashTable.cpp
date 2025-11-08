@@ -80,7 +80,7 @@ int hashTable::hash(const string& key, int buckets) {
         hash3 *= base + isalpha(c);
     }
 
-    // Use golden ratio fractional for optimal spread.
+    // Use golden ratio fractional for a better spread.
     hash *= 0x9e3779b9 + hash2;
     hash *= 0x9e3779b9 + hash3;
 

@@ -23,7 +23,6 @@ public:
     bool remove(const string& key);
     string search(const string& key);
     ~hashTable();
-
 };
 
 
