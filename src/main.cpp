@@ -143,7 +143,10 @@ int main() {
     //Dearest Nicole, 
     //the following line returns the values for each state
     //in alphabetical order. For example, stateData[0] is Alabama.
-    //Should be pretty easy to connect to the GUI from here. GL!
+    //Should be pretty easy to connect to the GUI from here. You 
+    //will need to modify the path to the database, which you can 
+    //do on Line 35. I also have no idea what you need for the CMAKE
+    //to make this code work, I used VSCode. Good Luck!
     vector<float> stateData = tree.getDisplayData();
 
     cout << "States in display data: " << stateData.size() << endl;
