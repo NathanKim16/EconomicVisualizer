@@ -7,21 +7,34 @@
 #include <sstream>
 #include <vector>
 #include <algorithm>
-#include "tree.h" 
+#include <map>
+#include "tree.h"
 
 using namespace std;
 
 int main() {
-    //////////////////////////////////
-    /////Load data from CSV files/////
-    //////////////////////////////////
-
-    //Poverty Data
-    vector<vector<string>> data;
+    //State abbreviation to full name map
+    map<string, string> abbrevToFull = {
+        {"AL", "Alabama"}, {"AK", "Alaska"}, {"AZ", "Arizona"}, {"AR", "Arkansas"},
+        {"CA", "California"}, {"CO", "Colorado"}, {"CT", "Connecticut"}, {"DE", "Delaware"},
+        {"DC", "District of Columbia"}, {"FL", "Florida"}, {"GA", "Georgia"}, {"HI", "Hawaii"},
+        {"ID", "Idaho"}, {"IL", "Illinois"}, {"IN", "Indiana"}, {"IA", "Iowa"},
+        {"KS", "Kansas"}, {"KY", "Kentucky"}, {"LA", "Louisiana"}, {"ME", "Maine"},
+        {"MD", "Maryland"}, {"MA", "Massachusetts"}, {"MI", "Michigan"}, {"MN", "Minnesota"},
+        {"MS", "Mississippi"}, {"MO", "Missouri"}, {"MT", "Montana"}, {"NE", "Nebraska"},
+        {"NV", "Nevada"}, {"NH", "New Hampshire"}, {"NJ", "New Jersey"}, {"NM", "New Mexico"},
+        {"NY", "New York"}, {"NC", "North Carolina"}, {"ND", "North Dakota"}, {"OH", "Ohio"},
+        {"OK", "Oklahoma"}, {"OR", "Oregon"}, {"PA", "Pennsylvania"}, {"RI", "Rhode Island"},
+        {"SC", "South Carolina"}, {"SD", "South Dakota"}, {"TN", "Tennessee"}, {"TX", "Texas"},
+        {"UT", "Utah"}, {"VT", "Vermont"}, {"VA", "Virginia"}, {"WA", "Washington"},
+        {"WV", "West Virginia"}, {"WI", "Wisconsin"}, {"WY", "Wyoming"}
+    };
+    //Load Data
+    vector<vector<string>> unemploymentData;
     //NOTE: Replace file path with your own local path to the data file
-    ifstream file("C:/Users/Nathan Kim/Documents/Coding/C++/COP3530/EconomicVisualizer/data/cleanedPoverty2023.csv");
+    ifstream file("C:/Users/Nathan Kim/Documents/Coding/C++/COP3530/EconomicVisualizer/data/cleanedUnemployment2023.csv");
     if (!file.is_open()) {
-        cerr << "Error opening poverty data file." << endl;
+        cerr << "Error opening file." << endl;
         return 1;
     }
     string line;
@@ -30,47 +43,112 @@ int main() {
         stringstream ss(line);
         string cell;
         while (getline(ss, cell, ',')) {
+            //Strip quotes if present
+            if (!cell.empty() && cell.front() == '"' && cell.back() == '"') {
+                cell = cell.substr(1, cell.size() - 2);
+            }
             row.push_back(cell);
         }
-        data.push_back(row);
+        if (!row.empty()){
+            // //Print row for debugging
+            // for (const auto& c : row) {
+            //     cout << c << " | ";
+            // }
+            // cout << endl;
+            unemploymentData.push_back(row);
+        }
     }
     file.close();
+    cout << unemploymentData.size() << " rows loaded from unemployment data file." << endl;
 
-    vector<string> removeKeyStrings = {"United States", "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado",
-                                        "Connecticut", "Delaware", "District of Columbia", "Florida", "Georgia", "Hawaii",
-                                        "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", 
-                                        "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", 
-                                        "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", 
-                                        "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island",
-                                        "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia",
-                                        "Washington", "West Virginia", "Wisconsin", "Wyoming"};
-    cout << data.size() << " rows loaded from poverty data file." << endl;
-    if (!data.empty()) {
-        // // Remove rows with unwanted geographic names
-        // for(int i=0; i<data.size(); i++){
-        //     string geoName = data[i][2];
-        //     if (find(removeKeyStrings.begin(), removeKeyStrings.end(), geoName) != removeKeyStrings.end()) {
-        //         data.erase(data.begin() + i);
-        //         i--; // Adjust index after removal
-        //     }
-        // }
+    //Map to hold data: path -> seriesName -> year -> value
+    map<string, map<string, map<int, float>>> allData;
 
+    for (size_t i = 1; i < unemploymentData.size(); ++i) {
+        const auto& row = unemploymentData[i];
+        if (row.size() < 5 || row[0].empty()){
+            cout << "Skipping invalid row " << i << endl;
+            continue;
+        }
 
+        string stateAbbrev = row[1];
+        auto it = abbrevToFull.find(stateAbbrev);
+        if (it == abbrevToFull.end()){
+            cout << "Unknown state abbreviation in row " << i << endl;
+            continue;
+        }
+        string fullState = it->second;
+
+        string county = row[2];
+
+        string path = fullState + "/" + county;
+
+        string attr = row[3];
+        if (attr.empty()){
+            cout << "Skipping empty attribute in row " << i << endl;
+            continue;
+        }
+        string valStr = row[4];
+        float value;
+        try {
+            value = stof(valStr);
+        } catch (const std::exception& e) {
+            cout << "Invalid value in row " << i << endl;
+            continue;
+        }
+
+        ///Parse attribute for base and year
+        size_t usPos = attr.rfind('_');
+        if (usPos == string::npos || attr.length() - usPos - 1 != 4) {
+            //No year or invalid, skip or handle as no year
+            cout << "Invalid attribute format in row " << i << endl;
+            continue;
+        }
+        string yearStr = attr.substr(usPos + 1);
+        int year;
+        try {
+            year = stoi(yearStr);
+        } catch (const std::exception& e) {
+            cout << "Invalid year in row " << i << endl;
+            continue;
+        }
+        string base = attr.substr(0, usPos);
+
+        //Store data
+        allData[path][base][year] = value;
     }
-    //Save cleaned data to new CSV file
-    // ofstream cleanedfile("C:/Users/Nathan Kim/Documents/Coding/C++/COP3530/EconomicVisualizer/data/cleanedUnemployment2023.csv");
-    // for (const auto& row : data) {
-    //     for (size_t i = 0; i < row.size(); ++i) {
-    //         cleanedfile << row[i];
-    //         if (i < row.size() - 1) {
-    //             cleanedfile << ",";
-    //         }
-    //     }
-    //     cleanedfile << "\n";
-    // }
-    // cleanedfile.close();    
-    // cout << data.size() << " rows loaded to poverty data file." << endl;
 
     //Push data into tree structure
+    Tree tree;
+    for (const auto& pd : allData) {
+        const string& path = pd.first;
+        for (const auto& sd : pd.second) {
+            const string& dataType = sd.first;
+            const auto& yearMap = sd.second;
+            vector<pair<int, float>> yearValues;
+            for (const auto& yv : yearMap) {
+                yearValues.push_back({yv.first, yv.second});
+            }
+            //Sort by year
+            sort(yearValues.begin(), yearValues.end());
+            vector<float> values;
+            vector<string> labels;
+            for (const auto& yv : yearValues) {
+                values.push_back(yv.second);
+                labels.push_back(to_string(yv.first));
+            }
+            tree.insert(path, dataType, values, labels);
+        }
+    }
 
+    vector<float> stateData = tree.getDisplayData();
+
+    cout << "States in display data: " << stateData.size() << endl;
+
+    for(int i = 0; i < stateData.size(); ++i){
+        cout << stateData[i] << ", ";
+    }
+
+
+    return 0;
 }
