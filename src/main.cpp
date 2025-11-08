@@ -8,7 +8,12 @@
 #include <vector>
 #include <algorithm>
 #include <map>
+#include <string>
 #include "tree.h"
+#include "hashTable.h"
+#include "Visualization.h"
+
+
 
 using namespace std;
 
@@ -32,7 +37,7 @@ int main() {
     //Load Data
     vector<vector<string>> unemploymentData;
     //NOTE: Replace file path with your own local path to the data file
-    ifstream file("C:/Users/Nathan Kim/Documents/Coding/C++/COP3530/EconomicVisualizer/data/cleanedUnemployment2023.csv");
+    ifstream file("data/cleanedUnemployment2023.csv");
     if (!file.is_open()) {
         cerr << "Error opening file." << endl;
         return 1;
@@ -140,13 +145,9 @@ int main() {
             tree.insert(path, dataType, values, labels);
         }
     }
-    //Dearest Nicole, 
-    //the following line returns the values for each state
-    //in alphabetical order. For example, stateData[0] is Alabama.
-    //Should be pretty easy to connect to the GUI from here. You 
-    //will need to modify the path to the database, which you can 
-    //do on Line 35. I also have no idea what you need for the CMAKE
-    //to make this code work, I used VSCode. Good Luck!
+
+    Visualization::visualizer();
+
     vector<float> stateData = tree.getDisplayData();
 
     cout << "States in display data: " << stateData.size() << endl;
