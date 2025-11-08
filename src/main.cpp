@@ -140,7 +140,10 @@ int main() {
             tree.insert(path, dataType, values, labels);
         }
     }
-
+    //Dearest Nicole, 
+    //the following line returns the values for each state
+    //in alphabetical order. For example, stateData[0] is Alabama.
+    //Should be pretty easy to connect to the GUI from here. GL!
     vector<float> stateData = tree.getDisplayData();
 
     cout << "States in display data: " << stateData.size() << endl;
