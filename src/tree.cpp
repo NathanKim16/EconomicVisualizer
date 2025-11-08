@@ -158,3 +158,38 @@ vector<float> Tree::getDisplayData() const
 
     return displayData;
 }
+
+float Tree::searchValue(const string& path, const string& dataType, int year) const {
+    const GeoNode* current = root;
+    stringstream ss(path);
+    string segment;
+
+    //Split by '/'
+    vector<string> parts;
+    while (getline(ss, segment, '/')) {
+        if (!segment.empty()) parts.push_back(segment);
+    }
+
+    //Walk the hierarchy
+    for (const auto& part : parts) {
+        Node* found = current->findChild(part);
+        if (found) {
+            current = dynamic_cast<const GeoNode*>(found);
+        } else {
+            return -1.0f; // Path not found
+        }
+    }
+
+    //Find the DataNode with the specified dataType
+    for (const auto& childUPtr : current->children) {
+        const DataNode* data = dynamic_cast<const DataNode*>(childUPtr.get());
+        if (data && data->dataType == dataType) {
+            if (year >= 2000 && year < 2000 + static_cast<int>(data->values.size())) {
+                // Year starts from 2000
+                return data->values[year-2000]; 
+            }
+        }
+    }
+
+    return -1.0f; // Data not found
+}

@@ -1,9 +1,13 @@
+#ifndef TREE_H
+#define TREE_H
+
 #include <iostream>
 #include <vector>
 #include <unordered_map>
 #include <variant>
 #include <string>
 #include <memory>
+
 
 using namespace std;
 class Tree{
@@ -86,6 +90,9 @@ public:
     bool insert(string name, string dataType, vector<float> values, vector<string> labels);
     void print() const;
     void printNode(const Node* n, int depth = 0) const;
+    float searchValue(const string& path, const string& dataType, int year) const;
     vector<float> getDisplayData() const;
     ~Tree();
 };
+
+#endif //TREE_H
