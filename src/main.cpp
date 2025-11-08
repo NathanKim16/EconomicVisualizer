@@ -125,9 +125,12 @@ int main() {
         allData[path][base][year] = value;
 
         //Store data to hash table
-        string hashHey = stateAbbrev + "-" + county + "-" + attr.substr(0, attr.length() - 5) + "-" + attr.substr(attr.length() - 4);
+        string hashHey = stateAbbrev + "," + county + "," + attr.substr(0, attr.length() - 5) + "," + attr.substr(attr.length() - 4);
         float hashValue = value;
 
+        if(i<10){
+            cout << "Hash Key: " << hashHey << " | Hash Value: " << hashValue << endl;
+        }
         hashData.insert(hashHey, to_string(hashValue));
     }
 
@@ -166,6 +169,9 @@ int main() {
     //Example search
     float val = tree.searchValue("Florida/Alachua County", "Unemployment_rate", 2001);
     cout << "Example search value: " << val << endl;
+
+    string val2 = hashData.search("AL", "Autauga", "Civilian_labor_force", "2001");
+    cout << "Example search value: " << val2 << endl;
 
 
     //Visualization::visualizer(tree, hashData, stateData);

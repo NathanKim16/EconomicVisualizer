@@ -7,6 +7,8 @@ hashTable::hashTable(float maxLoadFactor) {
 
 hashTable::hashTable() {
     maxLoadFactor = 0.7f;
+    buckets = 100;
+    arr = new vector<pair<string, string>>[buckets];
 }
 
 hashTable::~hashTable() {
@@ -45,7 +47,8 @@ bool hashTable::remove(const string& key) {
     return false;
 }
 
-string hashTable::search(const string& key) {
+string hashTable::search(const string& state, const string& county, const string& attribute, const string& year) {
+    string key = state + "," + county + " County" + "," + attribute + "," + year; // Getting it in key format
     vector<pair<string, string>>& curr = arr[hash(key, buckets)];
     for (auto & i : curr) {
         if (i.first == key) {
@@ -59,7 +62,7 @@ int hashTable::hash(const string& key, int buckets) {
     stringstream ss(key);
     vector<string> keyData; // keyData[0] = State, keyData[1] = county, keyData[2] = attribute, keyData[3] = year
     string data;
-    while (getline(ss, data, '-')) {
+    while (getline(ss, data, ',')) {
         keyData.push_back(data);
     }
 
@@ -99,7 +102,7 @@ void hashTable::resize() {
     for (int i = 0; i < buckets; i++) {
         for (auto& item : arr[i]) {
             vector<pair<string, string>>& curr = newArr[hash(item.first, newSize)];
-            curr[curr.size()] = pair<string, string>(item.first, item.second); // Don't need to check duplicates
+            curr.push_back(pair<string, string>(item.first, item.second)); // Don't need to check duplicates
         }
     }
     delete[] arr;
