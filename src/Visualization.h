@@ -4,17 +4,12 @@
 
 #include <SFML/Graphics.hpp>
 #include <unordered_map>
-#include <map>
 #include <vector>
 #include <string>
-#include <fstream>
-#include <iostream>
-#include <algorithm>
-#include <cctype>
 #include <array>
 #include <chrono>
-#include <random>
-using namespace std;
+#include "hashTable.h"
+#include "tree.h"
 
 class Visualization {
         static inline unsigned packRGB(const sf::Color& c);
@@ -63,7 +58,7 @@ class Visualization {
 
 public:
 
-        static int visualizer();
+        static int visualizer(Tree tree, hashTable table, vector<float> stateDataTree);
 };
 
 #endif //VISUALIZATION_H

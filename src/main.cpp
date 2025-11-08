@@ -37,9 +37,7 @@ int main() {
     //Load Data
     vector<vector<string>> unemploymentData;
     //NOTE: Replace file path with your own local path to the data file
-    //C:/Users/Nathan Kim/Documents/Coding/C++/COP3530/EconomicVisualizer/data/cleanedUnemployment2023.csv
-    //data/cleanedUnemployment2023.csv
-    ifstream file("C:/Users/Nathan Kim/Documents/Coding/C++/COP3530/EconomicVisualizer/data/cleanedUnemployment2023.csv");
+    ifstream file("data/cleanedUnemployment2023.csv");
     if (!file.is_open()) {
         cerr << "Error opening file." << endl;
         return 1;
@@ -70,7 +68,7 @@ int main() {
 
     //Map to hold data: path -> seriesName -> year -> value
     map<string, map<string, map<int, float>>> allData;
-    
+
     hashTable hashData;
 
     for (size_t i = 1; i < unemploymentData.size(); ++i) {
@@ -127,12 +125,9 @@ int main() {
         allData[path][base][year] = value;
 
         //Store data to hash table
-        string hashHey = stateAbbrev + "-" + county + "-" + attr;
+        string hashHey = stateAbbrev + "-" + county + "-" + attr.substr(0, attr.length() - 5) + "-" + attr.substr(attr.length() - 4);
         float hashValue = value;
 
-        if(i<10){
-            cout << "Hash Key: " << hashHey << " | Hash Value: " << hashValue << endl;
-        }
         hashData.insert(hashHey, to_string(hashValue));
     }
 
@@ -159,8 +154,6 @@ int main() {
         }
     }
 
-    // Visualization::visualizer();
-
     vector<float> stateData = tree.getDisplayData();
 
     cout << "States in display data: " << stateData.size() << endl;
@@ -174,6 +167,8 @@ int main() {
     float val = tree.searchValue("Florida/Alachua County", "Unemployment_rate", 2001);
     cout << "Example search value: " << val << endl;
 
+
+    //Visualization::visualizer(tree, hashData, stateData);
 
     return 0;
 }

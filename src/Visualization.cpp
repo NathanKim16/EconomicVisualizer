@@ -1,4 +1,5 @@
 #include "Visualization.h"
+#include <fstream>
 
 using namespace std;
 
@@ -189,7 +190,7 @@ string Visualization::fmtPct(float x){
     return string(buf);
 }
 
-int Visualization::visualizer(){
+int Visualization::visualizer(Tree tree, hashTable table, vector<float> stateDataTree){
     string pngPath = findFile("data/usa_color_ids.png");
     string csvPath = findFile("data/ids.csv");
     if (pngPath.empty() || csvPath.empty()){ cerr<<"Missing usa_color_ids.png or ids.csv\n"; return 1; }

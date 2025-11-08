@@ -5,23 +5,24 @@
 #include <string>
 #include <vector>
 #include <sstream>
-using namespace std;
+
+
 
 class hashTable {
 private:
     float maxLoadFactor;
     int buckets = 100;
     int fullBuckets = 0;
-    vector<pair<string, string>>* arr = new vector<pair<string, string>>[buckets];
-    int hash(const string& key, int buckets);
+    std::vector<std::pair<std::string, std::string>>* arr = new std::vector<std::pair<std::string, std::string>>[buckets];
+    int hash(const std::string& key, int buckets);
     void resize();
 
 public:
     hashTable(float maxLoadFactor);
     hashTable();
-    bool insert(const string& key, const string& value);
-    bool remove(const string& key);
-    string search(const string& key);
+    bool insert(const std::string& key, const std::string& value);
+    bool remove(const std::string& key);
+    std::string search(const std::string& key);
     ~hashTable();
 };
 
