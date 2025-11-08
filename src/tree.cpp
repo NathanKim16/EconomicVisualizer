@@ -159,16 +159,36 @@ vector<float> Tree::getDisplayData() const
     return displayData;
 }
 
-float Tree::searchValue(const string& path, const string& dataType, int year) const {
+string Tree::searchValue(const string& stateAbbrev, const string& countyName, const string& dataType, string yearString) const {
+    map<string, string> abbrevToFull = {
+        {"AL", "Alabama"}, {"AK", "Alaska"}, {"AZ", "Arizona"}, {"AR", "Arkansas"},
+        {"CA", "California"}, {"CO", "Colorado"}, {"CT", "Connecticut"}, {"DE", "Delaware"},
+        {"DC", "District of Columbia"}, {"FL", "Florida"}, {"GA", "Georgia"}, {"HI", "Hawaii"},
+        {"ID", "Idaho"}, {"IL", "Illinois"}, {"IN", "Indiana"}, {"IA", "Iowa"},
+        {"KS", "Kansas"}, {"KY", "Kentucky"}, {"LA", "Louisiana"}, {"ME", "Maine"},
+        {"MD", "Maryland"}, {"MA", "Massachusetts"}, {"MI", "Michigan"}, {"MN", "Minnesota"},
+        {"MS", "Mississippi"}, {"MO", "Missouri"}, {"MT", "Montana"}, {"NE", "Nebraska"},
+        {"NV", "Nevada"}, {"NH", "New Hampshire"}, {"NJ", "New Jersey"}, {"NM", "New Mexico"},
+        {"NY", "New York"}, {"NC", "North Carolina"}, {"ND", "North Dakota"}, {"OH", "Ohio"},
+        {"OK", "Oklahoma"}, {"OR", "Oregon"}, {"PA", "Pennsylvania"}, {"RI", "Rhode Island"},
+        {"SC", "South Carolina"}, {"SD", "South Dakota"}, {"TN", "Tennessee"}, {"TX", "Texas"},
+        {"UT", "Utah"}, {"VT", "Vermont"}, {"VA", "Virginia"}, {"WA", "Washington"},
+        {"WV", "West Virginia"}, {"WI", "Wisconsin"}, {"WY", "Wyoming"}
+    };
     const GeoNode* current = root;
-    stringstream ss(path);
-    string segment;
-
-    //Split by '/'
+    int year = stoi(yearString);
     vector<string> parts;
-    while (getline(ss, segment, '/')) {
-        if (!segment.empty()) parts.push_back(segment);
+
+    auto it = abbrevToFull.find(stateAbbrev);
+    if (it == abbrevToFull.end()){
+        cout << "Unknown state abbreviation" << endl;
     }
+    string stateName = it->second;
+
+    string fullCountyName = countyName + " County";
+
+    parts.push_back(stateName);
+    parts.push_back(fullCountyName);
 
     //Walk the hierarchy
     for (const auto& part : parts) {
@@ -176,7 +196,7 @@ float Tree::searchValue(const string& path, const string& dataType, int year) co
         if (found) {
             current = dynamic_cast<const GeoNode*>(found);
         } else {
-            return -1.0f; // Path not found
+            return "N/A";
         }
     }
 
@@ -186,10 +206,10 @@ float Tree::searchValue(const string& path, const string& dataType, int year) co
         if (data && data->dataType == dataType) {
             if (year >= 2000 && year < 2000 + static_cast<int>(data->values.size())) {
                 // Year starts from 2000
-                return data->values[year-2000]; 
+                return to_string(data->values[year-2000]); 
             }
         }
     }
 
-    return -1.0f; // Data not found
+    return "N/A"; // Data not found
 }

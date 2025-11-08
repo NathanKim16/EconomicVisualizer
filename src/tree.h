@@ -90,7 +90,7 @@ public:
     bool insert(string name, string dataType, vector<float> values, vector<string> labels);
     void print() const;
     void printNode(const Node* n, int depth = 0) const;
-    float searchValue(const string& path, const string& dataType, int year) const;
+    string searchValue(const string& stateAbbrev, const string& countyName, const string& dataType, string yearString) const;
     vector<float> getDisplayData() const;
     ~Tree();
 };
