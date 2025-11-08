@@ -23,7 +23,7 @@ bool hashTable::insert(const string& key, const string& value) {
     if (curr.empty()) {
         fullBuckets++;
     }
-    curr.push_back(pair(key, value));
+    curr.push_back(pair<string, string>(key, value));
     if (static_cast<float>(fullBuckets)/static_cast<float>(buckets) >= maxLoadFactor) { // Need to check load factor on insert
         resize();
     }
@@ -93,7 +93,7 @@ void hashTable::resize() {
     for (int i = 0; i < buckets; i++) {
         for (auto& item : arr[i]) {
             vector<pair<string, string>>& curr = newArr[hash(item.first, newSize)];
-            curr[curr.size()] = pair(item.first, item.second); // Don't need to check duplicates
+            curr[curr.size()] = pair<string, string>(item.first, item.second); // Don't need to check duplicates
         }
     }
     delete[] arr;

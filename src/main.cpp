@@ -37,7 +37,9 @@ int main() {
     //Load Data
     vector<vector<string>> unemploymentData;
     //NOTE: Replace file path with your own local path to the data file
-    ifstream file("data/cleanedUnemployment2023.csv");
+    //C:/Users/Nathan Kim/Documents/Coding/C++/COP3530/EconomicVisualizer/data/cleanedUnemployment2023.csv
+    //data/cleanedUnemployment2023.csv
+    ifstream file("C:/Users/Nathan Kim/Documents/Coding/C++/COP3530/EconomicVisualizer/data/cleanedUnemployment2023.csv");
     if (!file.is_open()) {
         cerr << "Error opening file." << endl;
         return 1;
@@ -55,7 +57,7 @@ int main() {
             row.push_back(cell);
         }
         if (!row.empty()){
-            // //Print row for debugging
+            //Print row for debugging
             // for (const auto& c : row) {
             //     cout << c << " | ";
             // }
@@ -68,6 +70,8 @@ int main() {
 
     //Map to hold data: path -> seriesName -> year -> value
     map<string, map<string, map<int, float>>> allData;
+    
+    hashTable hashData;
 
     for (size_t i = 1; i < unemploymentData.size(); ++i) {
         const auto& row = unemploymentData[i];
@@ -121,6 +125,15 @@ int main() {
 
         //Store data
         allData[path][base][year] = value;
+
+        //Store data to hash table
+        string hashHey = stateAbbrev + "-" + county + "-" + attr;
+        float hashValue = value;
+
+        if(i<10){
+            cout << "Hash Key: " << hashHey << " | Hash Value: " << hashValue << endl;
+        }
+        hashData.insert(hashHey, to_string(hashValue));
     }
 
     //Push data into tree structure
@@ -146,7 +159,7 @@ int main() {
         }
     }
 
-    Visualization::visualizer();
+    // Visualization::visualizer();
 
     vector<float> stateData = tree.getDisplayData();
 
@@ -155,6 +168,11 @@ int main() {
     for(int i = 0; i < stateData.size(); ++i){
         cout << stateData[i] << ", ";
     }
+    cout << endl;
+
+    //Example search
+    float val = tree.searchValue("Florida/Alachua County", "Unemployment_rate", 2001);
+    cout << "Example search value: " << val << endl;
 
 
     return 0;
