@@ -35,7 +35,7 @@ int main() {
     //Load Data
     vector<vector<string>> unemploymentData;
     //NOTE: Replace file path with your own local path to the data file
-    ifstream file("C:/Users/Nathan Kim/Documents/Coding/C++/COP3530/EconomicVisualizer/data/cleanedUnemployment2023.csv");
+    ifstream file("data/cleanedUnemployment2023.csv");
     if (!file.is_open()) {
         cerr << "Error opening file." << endl;
         return 1;
@@ -127,7 +127,7 @@ int main() {
     }
 
     //Push data into tree structure
-    cout << "Loading data into B-tree..." << endl;
+    cout << "Loading data into N-ary tree..." << endl;
     Tree tree;
     for (const auto& pd : allData) {
         const string& path = pd.first;

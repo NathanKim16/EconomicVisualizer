@@ -313,7 +313,7 @@ namespace Visualization {
         auto nextY = [&](float h){ float old=y; y += h + 10.f; return old; };
 
         sf::Text about; about.setFont(uiFont); about.setCharacterSize(16); about.setFillColor(sf::Color(230,230,235));
-        about.setString("Economic Visualizer\nUse the search to find a certain\ndata point using both a hash\ntable and a B tree and compare\ntheir time complexities.");
+        about.setString("Economic Visualizer\nUse the search to find a certain\ndata point using both a hash\ntable and a n-ary tree and compare\ntheir time complexities.");
         about.setPosition(sideX + 12.f, nextY(76.f));
 
         auto makeInput = [&](const string& ph, const string& mode)->InputBox{
@@ -381,7 +381,7 @@ namespace Visualization {
         cxPanel.setPosition(sideX + 12.f, nextY(70.f));
         cxPanel.setSize({SIDEBAR_W - 24.f, 70.f});
         sf::Text cxText; cxText.setFont(uiFont); cxText.setCharacterSize(14); cxText.setFillColor(sf::Color(230,230,235));
-        cxText.setString("Hash:   time - ms\nB-tree: time - ms)");
+        cxText.setString("Hash:   time - ms\nN-arytree: time - ms)");
         cxText.setPosition(cxPanel.getPosition().x + 10.f, cxPanel.getPosition().y + 6.f);
 
         // Key
@@ -476,7 +476,7 @@ namespace Visualization {
 
             if (yearStr.empty() || st2.size()!=2 || county.empty()){
                 outputText.setString("");
-                cxText.setString("Hash:   time - ms \nB-tree: time - ms");
+                cxText.setString("Hash:   time - ms \nN-ary tree: time - ms");
                 return;
             }
 
@@ -563,7 +563,7 @@ namespace Visualization {
             outputText.setString(shown);
 
             char buf[160];
-            snprintf(buf, sizeof(buf), "Hash:   time %.3f ms\nB-tree: time %.3f ms", hms, tms);
+            snprintf(buf, sizeof(buf), "Hash:   time %.3f ms\nN-ary tree: time %.3f ms", hms, tms);
             cxText.setString(buf);
         };
 
@@ -600,7 +600,6 @@ namespace Visualization {
             win.clear(WINDOW_BG);
             win.draw(header);
             win.draw(mapSprite);
-
             win.draw(sidebarPanel);
             win.draw(about);
             yearInput.draw(win);
