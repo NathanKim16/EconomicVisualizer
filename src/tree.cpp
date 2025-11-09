@@ -142,10 +142,10 @@ vector<float> Tree::getDisplayData() const
         float stateTotal = 0.0f;
         if (stateValues.size() == 9) {
             stateTotal +=
-                stateValues[0] * 0.00001f +   // Civilian_labor_force
-                stateValues[1] * 0.00001f +   // Employed
+                stateValues[0] * 0.00001f +  // Civilian_labor_force
+                stateValues[1] * 0.00001f +  // Employed
                 stateValues[2] * 0.001f  +   // Med_HH_Income_Percent_of_State_Total
-                stateValues[3] * 0.00001f +   // Median_Household_Income
+                stateValues[3] * 0.00001f +  // Median_Household_Income
                 stateValues[4] * 1.0f    +   // Metro
                 stateValues[5] * 0.1f    +   // Rural_Urban_Continuum_Code
                 stateValues[6] * 0.0001f +   // Unemployed
