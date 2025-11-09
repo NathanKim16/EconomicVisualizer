@@ -196,7 +196,7 @@ string Tree::searchValue(const string& stateAbbrev, const string& countyName, co
         if (found) {
             current = dynamic_cast<const GeoNode*>(found);
         } else {
-            return "N/A";
+            return "Not Found";
         }
     }
 
@@ -211,5 +211,5 @@ string Tree::searchValue(const string& stateAbbrev, const string& countyName, co
         }
     }
 
-    return "N/A"; // Data not found
+    return "Not Found";
 }
