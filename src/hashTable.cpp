@@ -55,7 +55,7 @@ string hashTable::search(const string& state, const string& county, const string
             return i.second;
         }
     }
-    return "";
+    return "Not found";
 }
 
 int hashTable::hash(const string& key, int buckets) {
