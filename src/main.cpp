@@ -134,7 +134,7 @@ int main() {
     }
 
     //Push data into tree structure
-    cout << "Loading data into B-tree..." << endl;
+    cout << "Loading data into N-ary tree..." << endl;
     Tree tree;
     for (const auto& pd : allData) {
         const string& path = pd.first;
