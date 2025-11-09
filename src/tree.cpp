@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <iomanip>
 #include <map>
+#include <cmath>
 #include "tree.h"
 
 using namespace std;
@@ -182,6 +183,7 @@ string Tree::searchValue(const string& stateAbbrev, const string& countyName, co
     auto it = abbrevToFull.find(stateAbbrev);
     if (it == abbrevToFull.end()){
         cout << "Unknown state abbreviation" << endl;
+        return "Not Found";
     }
     string stateName = it->second;
 
@@ -206,7 +208,7 @@ string Tree::searchValue(const string& stateAbbrev, const string& countyName, co
         if (data && data->dataType == dataType) {
             if (year >= 2000 && year < 2000 + static_cast<int>(data->values.size())) {
                 // Year starts from 2000
-                return to_string(data->values[year-2000]); 
+                return to_string(data->values[year - 2000]); 
             }
         }
     }

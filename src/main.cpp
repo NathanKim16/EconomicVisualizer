@@ -20,24 +20,24 @@ using namespace std;
 int main() {
     //State abbreviation to full name map
     map<string, string> abbrevToFull = {
-            {"AL", "Alabama"}, {"AK", "Alaska"}, {"AZ", "Arizona"}, {"AR", "Arkansas"},
-            {"CA", "California"}, {"CO", "Colorado"}, {"CT", "Connecticut"}, {"DE", "Delaware"},
-            {"DC", "District of Columbia"}, {"FL", "Florida"}, {"GA", "Georgia"}, {"HI", "Hawaii"},
-            {"ID", "Idaho"}, {"IL", "Illinois"}, {"IN", "Indiana"}, {"IA", "Iowa"},
-            {"KS", "Kansas"}, {"KY", "Kentucky"}, {"LA", "Louisiana"}, {"ME", "Maine"},
-            {"MD", "Maryland"}, {"MA", "Massachusetts"}, {"MI", "Michigan"}, {"MN", "Minnesota"},
-            {"MS", "Mississippi"}, {"MO", "Missouri"}, {"MT", "Montana"}, {"NE", "Nebraska"},
-            {"NV", "Nevada"}, {"NH", "New Hampshire"}, {"NJ", "New Jersey"}, {"NM", "New Mexico"},
-            {"NY", "New York"}, {"NC", "North Carolina"}, {"ND", "North Dakota"}, {"OH", "Ohio"},
-            {"OK", "Oklahoma"}, {"OR", "Oregon"}, {"PA", "Pennsylvania"}, {"RI", "Rhode Island"},
-            {"SC", "South Carolina"}, {"SD", "South Dakota"}, {"TN", "Tennessee"}, {"TX", "Texas"},
-            {"UT", "Utah"}, {"VT", "Vermont"}, {"VA", "Virginia"}, {"WA", "Washington"},
-            {"WV", "West Virginia"}, {"WI", "Wisconsin"}, {"WY", "Wyoming"}
+        {"AL", "Alabama"}, {"AK", "Alaska"}, {"AZ", "Arizona"}, {"AR", "Arkansas"},
+        {"CA", "California"}, {"CO", "Colorado"}, {"CT", "Connecticut"}, {"DE", "Delaware"},
+        {"DC", "District of Columbia"}, {"FL", "Florida"}, {"GA", "Georgia"}, {"HI", "Hawaii"},
+        {"ID", "Idaho"}, {"IL", "Illinois"}, {"IN", "Indiana"}, {"IA", "Iowa"},
+        {"KS", "Kansas"}, {"KY", "Kentucky"}, {"LA", "Louisiana"}, {"ME", "Maine"},
+        {"MD", "Maryland"}, {"MA", "Massachusetts"}, {"MI", "Michigan"}, {"MN", "Minnesota"},
+        {"MS", "Mississippi"}, {"MO", "Missouri"}, {"MT", "Montana"}, {"NE", "Nebraska"},
+        {"NV", "Nevada"}, {"NH", "New Hampshire"}, {"NJ", "New Jersey"}, {"NM", "New Mexico"},
+        {"NY", "New York"}, {"NC", "North Carolina"}, {"ND", "North Dakota"}, {"OH", "Ohio"},
+        {"OK", "Oklahoma"}, {"OR", "Oregon"}, {"PA", "Pennsylvania"}, {"RI", "Rhode Island"},
+        {"SC", "South Carolina"}, {"SD", "South Dakota"}, {"TN", "Tennessee"}, {"TX", "Texas"},
+        {"UT", "Utah"}, {"VT", "Vermont"}, {"VA", "Virginia"}, {"WA", "Washington"},
+        {"WV", "West Virginia"}, {"WI", "Wisconsin"}, {"WY", "Wyoming"}
     };
     //Load Data
     vector<vector<string>> unemploymentData;
     //NOTE: Replace file path with your own local path to the data file
-    ifstream file("data/cleanedUnemployment2023.csv");
+    ifstream file("C:/Users/Nathan Kim/Documents/Coding/C++/COP3530/EconomicVisualizer/data/cleanedUnemployment2023.csv");
     if (!file.is_open()) {
         cerr << "Error opening file." << endl;
         return 1;
@@ -68,6 +68,8 @@ int main() {
 
     //Map to hold data: path -> seriesName -> year -> value
     map<string, map<string, map<int, float>>> allData;
+
+    cout << "Loading data into Hash Table..." << endl;
 
     hashTable hashData;
 
@@ -132,6 +134,7 @@ int main() {
     }
 
     //Push data into tree structure
+    cout << "Loading data into B-tree..." << endl;
     Tree tree;
     for (const auto& pd : allData) {
         const string& path = pd.first;
@@ -156,20 +159,27 @@ int main() {
 
     vector<float> stateData = tree.getDisplayData();
 
-    cout << "States in display data: " << stateData.size() << endl;
-
-    for(int i = 0; i < stateData.size(); ++i){
-        cout << stateData[i] << ", ";
+    if(stateData.size() == 50){
+        cout << "State NEED data loaded" << endl;
     }
-    cout << endl;
+
+    // for(int i = 0; i < stateData.size(); ++i){
+    //     cout << stateData[i] << ", ";
+    // }
+    // cout << endl;
 
     //Example search
     string val = tree.searchValue("AL", "Autauga", "Civilian_labor_force", "2001");
-    cout << "Example search value: " << val << endl;
+    if(val == "22081.000000"){
+        cout << "Tree Searching Functional" << endl;
+    }
 
     string val2 = hashData.search("FL", "Alachua", "Unemployment_rate", "2001");
-    cout << "Example search value: " << val2 << endl;
+    if(val2 == "3.500000"){
+        cout << "Hash Table Searching Functional" << endl;
+    }
 
+    cout << "Launching Visualization..." << endl;
     Visualization::visualizer(tree, hashData, stateData);
 
     return 0;
