@@ -277,7 +277,7 @@ namespace Visualization {
         const float HEADER_H = 56.f;
         const float SIDEBAR_W = 360.f;
 
-        sf::RenderWindow win(sf::VideoMode(WIN_W, WIN_H), "Economic Visualizer", sf::Style::Close);
+        sf::RenderWindow win(sf::VideoMode(WIN_W, WIN_H), "US NEED Visualizer", sf::Style::Close);
         const sf::Color WINDOW_BG(235,240,248);
 
         float mapAreaW = WIN_W - SIDEBAR_W - 3*PAD;
@@ -294,7 +294,7 @@ namespace Visualization {
         // Header
         sf::Text header; header.setFont(uiFont); header.setCharacterSize(22);
         header.setFillColor(sf::Color(30,40,55));
-        header.setString("US Map - Need Index");
+        header.setString("US Map - NEED Index");
         header.setPosition(PAD, (HEADER_H - 22.f)/2.f - 1.f);
 
         // Sidebar
@@ -330,7 +330,7 @@ namespace Visualization {
             return ib;
         };
 
-        InputBox yearInput   = makeInput("Year (ex: 2001)", "digits");
+        InputBox yearInput   = makeInput("Year (2001-2023)", "digits");
         yearInput.box.setPosition(sideX + 12.f, nextY(34.f));
         yearInput.text.setPosition(yearInput.box.getPosition().x + 10.f, yearInput.box.getPosition().y + 6.f);
         yearInput.placeholder.setPosition(yearInput.text.getPosition());
@@ -511,8 +511,7 @@ namespace Visualization {
             auto isNA = [&](const string& s){
                 string t = toLower(trim_ic(s));
                 return t.empty() ||
-                       t=="n/a" || t=="na" || t=="null" || t=="none" ||
-                       t=="not found" || t=="notfound" || t=="no data" || t=="missing";
+                       t=="n/a" || t=="na" || t=="null" || t=="none" || t=="notfound" || t=="no data" || t=="missing";
             };
 
             vector<string> countyCands;
