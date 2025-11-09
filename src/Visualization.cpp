@@ -353,7 +353,7 @@ namespace Visualization {
         attrBtn.box.setFillColor(sf::Color(245,245,248));
         attrBtn.box.setOutlineThickness(1.f);
         attrBtn.box.setOutlineColor(sf::Color(80,90,110));
-        attrBtn.label.setFont(uiFont); attrBtn.label.setCharacterSize(18); attrBtn.label.setFillColor(sf::Color(30,40,55));
+        attrBtn.label.setFont(uiFont); attrBtn.label.setCharacterSize(12); attrBtn.label.setFillColor(sf::Color(30,40,55));
         size_t attrIdx=0;
         attrBtn.label.setString(string("Attribute: ") + kAttributes[attrIdx]);
         attrBtn.label.setPosition(attrBtn.box.getPosition().x + 10.f, attrBtn.box.getPosition().y + 6.f);
