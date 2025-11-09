@@ -1,5 +1,5 @@
 //Developed by Nathan Kim, Ashtyn Connoley,
-//and Nicole Wu for Project 2 of COP3503 at 
+//and Nicole Wu for Project 2 of COP3503 at
 //the University of Florida.
 
 #include <iostream>
@@ -20,24 +20,24 @@ using namespace std;
 int main() {
     //State abbreviation to full name map
     map<string, string> abbrevToFull = {
-        {"AL", "Alabama"}, {"AK", "Alaska"}, {"AZ", "Arizona"}, {"AR", "Arkansas"},
-        {"CA", "California"}, {"CO", "Colorado"}, {"CT", "Connecticut"}, {"DE", "Delaware"},
-        {"DC", "District of Columbia"}, {"FL", "Florida"}, {"GA", "Georgia"}, {"HI", "Hawaii"},
-        {"ID", "Idaho"}, {"IL", "Illinois"}, {"IN", "Indiana"}, {"IA", "Iowa"},
-        {"KS", "Kansas"}, {"KY", "Kentucky"}, {"LA", "Louisiana"}, {"ME", "Maine"},
-        {"MD", "Maryland"}, {"MA", "Massachusetts"}, {"MI", "Michigan"}, {"MN", "Minnesota"},
-        {"MS", "Mississippi"}, {"MO", "Missouri"}, {"MT", "Montana"}, {"NE", "Nebraska"},
-        {"NV", "Nevada"}, {"NH", "New Hampshire"}, {"NJ", "New Jersey"}, {"NM", "New Mexico"},
-        {"NY", "New York"}, {"NC", "North Carolina"}, {"ND", "North Dakota"}, {"OH", "Ohio"},
-        {"OK", "Oklahoma"}, {"OR", "Oregon"}, {"PA", "Pennsylvania"}, {"RI", "Rhode Island"},
-        {"SC", "South Carolina"}, {"SD", "South Dakota"}, {"TN", "Tennessee"}, {"TX", "Texas"},
-        {"UT", "Utah"}, {"VT", "Vermont"}, {"VA", "Virginia"}, {"WA", "Washington"},
-        {"WV", "West Virginia"}, {"WI", "Wisconsin"}, {"WY", "Wyoming"}
+            {"AL", "Alabama"}, {"AK", "Alaska"}, {"AZ", "Arizona"}, {"AR", "Arkansas"},
+            {"CA", "California"}, {"CO", "Colorado"}, {"CT", "Connecticut"}, {"DE", "Delaware"},
+            {"DC", "District of Columbia"}, {"FL", "Florida"}, {"GA", "Georgia"}, {"HI", "Hawaii"},
+            {"ID", "Idaho"}, {"IL", "Illinois"}, {"IN", "Indiana"}, {"IA", "Iowa"},
+            {"KS", "Kansas"}, {"KY", "Kentucky"}, {"LA", "Louisiana"}, {"ME", "Maine"},
+            {"MD", "Maryland"}, {"MA", "Massachusetts"}, {"MI", "Michigan"}, {"MN", "Minnesota"},
+            {"MS", "Mississippi"}, {"MO", "Missouri"}, {"MT", "Montana"}, {"NE", "Nebraska"},
+            {"NV", "Nevada"}, {"NH", "New Hampshire"}, {"NJ", "New Jersey"}, {"NM", "New Mexico"},
+            {"NY", "New York"}, {"NC", "North Carolina"}, {"ND", "North Dakota"}, {"OH", "Ohio"},
+            {"OK", "Oklahoma"}, {"OR", "Oregon"}, {"PA", "Pennsylvania"}, {"RI", "Rhode Island"},
+            {"SC", "South Carolina"}, {"SD", "South Dakota"}, {"TN", "Tennessee"}, {"TX", "Texas"},
+            {"UT", "Utah"}, {"VT", "Vermont"}, {"VA", "Virginia"}, {"WA", "Washington"},
+            {"WV", "West Virginia"}, {"WI", "Wisconsin"}, {"WY", "Wyoming"}
     };
     //Load Data
     vector<vector<string>> unemploymentData;
     //NOTE: Replace file path with your own local path to the data file
-    ifstream file("C:/Users/Nathan Kim/Documents/Coding/C++/COP3530/EconomicVisualizer/data/cleanedUnemployment2023.csv");
+    ifstream file("data/cleanedUnemployment2023.csv");
     if (!file.is_open()) {
         cerr << "Error opening file." << endl;
         return 1;
@@ -167,7 +167,7 @@ int main() {
     string val = tree.searchValue("AL", "Autauga", "Civilian_labor_force", "2001");
     cout << "Example search value: " << val << endl;
 
-    string val2 = hashData.search("AL", "Autauga", "Civilian_labor_force", "2001");
+    string val2 = hashData.search("FL", "Alachua", "Unemployment_rate", "2001");
     cout << "Example search value: " << val2 << endl;
 
     Visualization::visualizer(tree, hashData, stateData);

@@ -1,64 +1,18 @@
-
-#ifndef VISUALIZATION_H
-#define VISUALIZATION_H
-
-#include <SFML/Graphics.hpp>
-#include <unordered_map>
-#include <vector>
+#pragma once
+#include <map>
 #include <string>
-#include <array>
-#include <chrono>
-#include "hashTable.h"
 #include "tree.h"
+#include "hashTable.h"
 
-class Visualization {
-        static inline unsigned packRGB(const sf::Color& c);
-        static int hex2(char a, char b);
-        static bool isHex7(const string& s);
-        static sf::Color HEX7(const string& s);
-        static string trim(string s);
-        static void upper2_inplace(string& s);
-        static string findFile(const char* name);
-        static bool loadIdsCSV(
-                const char* path,
-                unordered_map<unsigned,string>& C2A,
-                unordered_map<string,unsigned>& A2C
-        );
-        static unsigned nearestKey(const sf::Color& c, const vector<unsigned>& keys);
-        static vector<unsigned> classifyLabels(
-                const sf::Image& idImg,
-                const unordered_map<unsigned,string>& C2A,
-                const vector<unsigned>& keys,
-                unsigned char alphaMin = 16
-        );
+namespace Visualization {
 
-        static vector<unsigned char> buildBorderMaskFromLabels(
-                const vector<unsigned>& L, unsigned W, unsigned H
-        );
+// Runs the full SFML UI and event loop.
+// - Colors the US map by Unemployment_Rate for the selected year
+// - Attribute toggle affects the point lookup only (map always uses Unemployment_Rate)
+// - Output shows ONLY the numeric value returned by hashData.search(...)
+// Returns 0 on normal window close, nonzero on asset/load errors.
+    int visualizer(
+            Tree tree, hashTable hashData, std::vector<float> stateData
+    );
 
-        static void repaintFromLabels(
-                const vector<unsigned>& L,
-                const vector<unsigned char>& border,
-                unsigned W, unsigned H,
-                const unordered_map<unsigned,sf::Color>& lut,
-                sf::Image& out
-        );
-
-        struct Button {
-                sf::RectangleShape box;
-                sf::Text label;
-                string id;
-        };
-
-        static array<sf::Color,5> buildShades(sf::Color base);
-
-        static int bucketIndex(float x, float lo, float hi, int buckets=5);
-
-        static string fmtPct(float x);
-
-public:
-
-        static int visualizer(Tree tree, hashTable table, vector<float> stateDataTree);
-};
-
-#endif //VISUALIZATION_H
+} // namespace Visualization
