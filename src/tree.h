@@ -45,7 +45,7 @@ private:
         T* emplaceChild(Args&&... args){
             auto ptr = std::make_unique<T>(std::forward<Args>(args)...);
             T* raw = ptr.get();
-            raw->setParent(this);                 // keep parent link correct
+            raw->setParent(this);
             children.push_back(std::move(ptr));
             return raw;
         }
@@ -81,7 +81,7 @@ private:
         //DataNode never has children, so findChild always returns nullptr
         Node* findChild(const std::string&) const { return nullptr; }
 
-        //called from GeoNode::emplaceChild
+        //Called from GeoNode::emplaceChild
         void setParent(GeoNode* p) { parent = p; }
         friend struct GeoNode;
     };

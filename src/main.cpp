@@ -13,8 +13,6 @@
 #include "hashTable.h"
 #include "Visualization.h"
 
-
-
 using namespace std;
 
 int main() {
@@ -55,11 +53,6 @@ int main() {
             row.push_back(cell);
         }
         if (!row.empty()){
-            //Print row for debugging
-            // for (const auto& c : row) {
-            //     cout << c << " | ";
-            // }
-            // cout << endl;
             unemploymentData.push_back(row);
         }
     }
@@ -163,12 +156,7 @@ int main() {
         cout << "State NEED data loaded" << endl;
     }
 
-    // for(int i = 0; i < stateData.size(); ++i){
-    //     cout << stateData[i] << ", ";
-    // }
-    // cout << endl;
-
-    //Example search
+    //Valiate search functionality
     string val = tree.searchValue("AL", "Autauga", "Civilian_labor_force", "2001");
     if(val == "22081.000000"){
         cout << "Tree Searching Functional" << endl;
